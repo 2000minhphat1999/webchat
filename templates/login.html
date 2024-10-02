@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Đăng nhập</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #f0f2f5;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .login-box {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 350px;
+      }
+
+      .login-box h2 {
+        color: #1877f2;
+        font-size: 28px;
+        font-weight: normal;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .form-control {
+        border: 1px solid #dddfe2;
+        border-radius: 6px;
+        font-size: 16px;
+        height: 48px;
+        padding: 0 16px;
+        margin-bottom: 10px;
+      }
+
+      .btn-primary {
+        background-color: #1877f2;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+        height: 50px;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .forgot-password {
+        color: #1877f2;
+        font-size: 14px;
+        text-align: center;
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      .create-account {
+        background-color: #42b72a;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 17px;
+        font-weight: bold;
+        height: 48px;
+        width: 100%;
+      }
+
+      .text-secondary {
+        font-size: 14px;
+        color: #606770;
+        text-align: center;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="login-box">
+        <h2>facebook</h2>
+        <p style="text-align: center">
+          Facebook giúp bạn kết nối và chia sẻ với mọi người trong cuộc sống của
+          bạn.
+        </p>
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+        <form method="POST" action="/login">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              placeholder="Tên người dùng"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Mật khẩu"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Đăng nhập</button>
+          <a href="/forgot_password" class="forgot-password">Quên mật khẩu?</a>
+        </form>
+        <button
+          type="button"
+          class="btn create-account"
+          onclick="window.location.href='/register'"
+        >
+          Tạo tài khoản mới
+        </button>
+        <p class="text-secondary">
+          Tạo Trang dành cho người nổi tiếng, thương hiệu hoặc doanh nghiệp.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

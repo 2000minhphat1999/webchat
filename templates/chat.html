@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Chat</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <style>
+        #chatbox {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4">Live Chat</h1>
+        <p class="text-right">Xin chào, {{ username }} (<a href="/logout">Đăng xuất</a>)</p>
+        <div id="chatbox" class="border rounded p-3"></div>
+        <div class="input-group mb-3">
+            <input type="text" id="message" class="form-control" placeholder="Nhập tin nhắn..." onkeyup="sendMessageOnEnter(event)">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" onclick="sendMessage()">Gửi</button>
+            </div>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+            var socket = io();
+            var username = "{{ username }}";
+            var room = 'general';
+
+            socket.emit('join', { username: username, room: room });
+
+            function sendMessage() {
+                var msg = document.getElementById('message').value;
+                if (msg.trim() !== '') { // Kiểm tra tin nhắn rỗng
+                    socket.emit('message', { username: username, room: room, msg: msg });
+                    document.getElementById('message').value = '';
+                }
+            }
+
+            // Gửi tin nhắn khi ấn Enter
+            function sendMessageOnEnter(event) {
+                if (event.keyCode === 13) { // 13 là mã phím Enter
+                    sendMessage();
+                }
+            }
+
+            socket.on('status', function (data) {
+                document.getElementById('chatbox').innerHTML += '<p>' + data.msg + '</p>';
+            });
+
+            socket.on('message', function (data) {
+                document.getElementById('chatbox').innerHTML += '<p><b>' + data.username + ':</b> ' + data.msg + '</p>';
+            });
+        </script>
+    </div>
+</body>
+</html>
